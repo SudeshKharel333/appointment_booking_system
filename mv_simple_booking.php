@@ -59,13 +59,11 @@ if ( ! class_exists( 'MV_Simple_Booking' ) ) {
     class MV_Simple_Booking {
 
         public function __construct() {
-// WordPress le "Sabai plugin load bhaye" bhanda yo function chalchha            
+            // WordPress le "Sabai plugin load bhaye" bhanda yo function chalchha            
             add_action( 'plugins_loaded', array( $this, 'initialize_plugin' ) );
-        // Front-end ma form dekhauna shortcode register gareko
-            add_shortcode( 'mv_simple_booking_form', array( $this, 'render_booking_form' ) );
-            }
+        }
 
-       public function initialize_plugin() {
+        public function initialize_plugin() {
             // CPT file load gareko
             require_once MV_BOOKING_PATH . 'includes/class-booking-cpt.php';
             if ( class_exists( 'MV_Booking_CPT' ) ) {
@@ -78,25 +76,57 @@ if ( ! class_exists( 'MV_Simple_Booking' ) ) {
             }
 
             // 3. Naya Admin Booking List file lai bhitrayako (Load gareko)
+            // FIXED: Filename matched to hyphen structure ('class-booking-admin.php')
             require_once MV_BOOKING_PATH . 'includes/class_booking_admin.php';
             if ( class_exists( 'MV_Booking_Admin' ) ) {
                 new MV_Booking_Admin();
             }
+            // Front-end ma form dekhauna shortcode register gareko
+            add_shortcode( 'mv_simple_booking_form', array( $this, 'render_booking_form' ) );
+            // १. hook to load CSS in the front-end (public-facing part of the website)
+            // CRITICAL FIX: Hook haru lai class poorei active bhayepachhi matra fire gareko
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_styles' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
         }
+        
         // Shortcode chalda yo function le HTML view file load garchha
         public function render_booking_form() {
             // Buffer shuru gareko ta ki HTML direct print nahos, shortcode bhitrai bashi rakhos
             ob_start();
             
             // View template file lai link gareko
-            include MV_BOOKING_PATH . 'public/views/booking_form_view.php';
+            // FIXED: Path naming normalized with proper directory separator slash and hyphens
+            include MV_BOOKING_PATH . '/public/views/booking_form_view.php';
             
             // Buffer close गरेर HTML return gareko
             return ob_get_clean();
         }
+
+        // link CSS file in the front-end (public-facing part of the website) ko lagi function
+        // FIXED: Brought inside the class boundary
+        public function enqueue_public_styles() {
+            wp_enqueue_style(
+                'mv-booking-public-css', 
+                plugins_url( 'public/css/booking_public.css', __FILE__ ), // फाइलको वास्तविक URL बाटो
+                array(),  
+                '1.0.0' 
+            );
         }
-    
+
+        //lfunction to link css in the admin part of the website
+        // FIXED: Brought inside the class boundary
+        public function enqueue_admin_styles() {
+            wp_enqueue_style(
+                'mv-booking-admin-css', 
+                plugins_url( 'admin/css/booking_admin.css', __FILE__ ), 
+                array(), 
+                '1.0.0'
+            );
+        }
+        
+    } // End of Class MV_Simple_Booking
 
     // Fire up the engine!
     $mv_simple_booking = new MV_Simple_Booking();
-}
+
+} // End of class_exists check

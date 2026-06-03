@@ -31,7 +31,7 @@ if ( ! class_exists( 'MV_Booking_CPT' ) ) {
                 'public'       => true,
                 'show_in_menu' => true, // Dashboard ko sidebar ma menu dekhauna ko lagi
                 'menu_icon'    => 'dashicons-businessman', // Staff ko icon (Manche ko logo)
-                'supports'     => array( 'title', 'thumbnail' ), // Name ra Photo rakhna dina ko lagi
+                'supports'     => array( 'title'), // Name ra Photo rakhna dina ko lagi
                 'has_archive'  => false,
             ) );
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'MV_Booking_CPT' ) ) {
                 'public'       => true,
                 'show_in_menu' => true, // Dashboard ko sidebar ma menu dekhauna ko lagi
                 'menu_icon'    => 'dashicons-admin-tools', // Service ko icon (Aujaar ko logo)
-                'supports'     => array( 'title', 'editor' ), // Name ra Description (Bhibaran) rakhna dina ko lagi
+                'supports'     => array( 'title' ), // Name ra Description (Bhibaran) rakhna dina ko lagi
                 'has_archive'  => false,
             ) );
         }

@@ -37,73 +37,18 @@ if ( ! class_exists( 'MV_Booking_Admin' ) ) {
             $bookings = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY id DESC" );
             ?>
             
-            <style>
-                .md-admin-wrap {
-                    margin: 24px 20px 0 0;
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                }
-                .md-header-title {
-                    font-size: 22px;
-                    font-weight: 600;
-                    color: #1d1b20;
-                    margin-bottom: 20px !important;
-                }
-                .md-table-container {
-                    background: #ffffff;
-                    border-radius: 12px;
-                    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
-                    border: 1px solid #e0e0e0;
-                    overflow: hidden;
-                    margin-top: 15px;
-                }
-                .md-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    text-align: left;
-                }
-                .md-table th {
-                    background: #f4f2f7; /* Soft light purple material tone */
-                    color: #49454f;
-                    font-weight: 600;
-                    font-size: 13px;
-                    padding: 16px;
-                    border-bottom: 1px solid #e0e0e0;
-                }
-                .md-table td {
-                    padding: 16px;
-                    color: #1d1b20;
-                    font-size: 14px;
-                    border-bottom: 1px solid #f0f0f0;
-                    vertical-align: middle;
-                }
-                .md-table tr:hover {
-                    background-color: #faf8fc; /* Subtle row hover */
-                }
-                .md-badge-id {
-                    background: #6750a4;
-                    color: white;
-                    padding: 4px 8px;
-                    border-radius: 6px;
-                    font-size: 11px;
-                    font-weight: bold;
-                }
-                .md-badge-time {
-                    background: #e8def8;
-                    color: #21005d;
-                    padding: 6px 12px;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    font-size: 12px;
-                    display: inline-block;
-                }
-                .md-no-data {
-                    padding: 30px !important;
-                    text-align: center;
-                    color: #79747e;
-                    font-style: italic;
-                }
-            </style>
+           
+
+
+
+
+
+
             
+
+
+
+
             <div class="md-admin-wrap">
                 <h1 class="md-header-title">Customer Bookings Manager</h1>
 

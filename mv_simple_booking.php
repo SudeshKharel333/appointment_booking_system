@@ -130,3 +130,51 @@ if ( ! class_exists( 'MV_Simple_Booking' ) ) {
     $mv_simple_booking = new MV_Simple_Booking();
 
 } // End of class_exists check
+// 1. Register AJAX hooks for (all) logged-in and non-logged-in usersadd_action( 'wp_ajax_mv_get_available_slots', 'mv_get_available_slots_handler' );
+add_action( 'wp_ajax_nopriv_mv_get_available_slots', 'mv_get_available_slots_handler' );
+
+function mv_get_available_slots_handler() {
+    // Nonce Check
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'mv_secure_booking_action' ) ) {
+        wp_send_json_error( 'Security check failed.' );
+    }
+
+    date_default_timezone_set('Asia/Kathmandu');
+    
+    $selected_date = isset( $_POST['selected_date'] ) ? sanitize_text_field( $_POST['selected_date'] ) : date('Y-m-d');
+    $today             = date('Y-m-d');
+    $current_timestamp = time();
+
+    $working_hours = array(
+        '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+        '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM',
+        '05:00 PM'
+    );
+
+// First empty option of the dropdown
+    $html = '<option value="">-- Choose a Time --</option>';
+
+    foreach ( $working_hours as $time ) {
+        $disabled_status = '';
+        $label_suffix    = '';
+
+        if ( $selected_date === $today ) {
+            $slot_timestamp = strtotime( $time );
+            if ( $slot_timestamp < $current_timestamp ) {
+// If the time has already passed, disable it and add (Passed)                $disabled_status = 'disabled style="color: #a0a0a0; background-color: #f5f5f5; cursor: not-allowed;"';
+                $label_suffix    = ' (Passed)';
+            }
+        }
+
+        $html .= sprintf(
+            '<option value="%s" %s>%s%s</option>',
+            esc_attr( $time ),
+            $disabled_status,
+            esc_html( $time ),
+            $label_suffix
+        );
+    }
+
+// Send the prepared HTML to the frontend    echo $html;
+    wp_die(); // It is mandatory to end the WordPress AJAX process here
+}
